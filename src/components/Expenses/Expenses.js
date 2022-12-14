@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Expense.css";
 import ExpenseItem from "./ExpenseItem";
 import Card from "../UI/Card";
@@ -17,19 +17,17 @@ import ExpensesFilter from "./ExpensesFilter";
 // 추가되는 부분에만 렌더링 함
 
 export default function Expenses(props) {
-  const [filteredYear, setFilteredYear] = useState("2020");
 
   const filterChangeHandler = (selectedYear) => {
-    console.log(selectedYear);
-
-    setFilteredYear(selectedYear);
+    props.onFilterChange(selectedYear)
   };
+
   return (
     <div>
       <Card className="expenses">
         <ExpensesFilter
           onChangeFilter={filterChangeHandler}
-          selected={filteredYear}
+          selected={props.filteredYear}
         />
         {props.items.map((expense) => {
           return (

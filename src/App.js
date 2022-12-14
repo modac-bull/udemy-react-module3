@@ -26,7 +26,7 @@ const DUMMY_EXPENSES = [
 
 const App = () => {
   const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
-  
+  const [filteredYear, setFilteredYear] = useState("2020");
 
   const addExpenseHandler = (expense) => {
     console.log("in app.js");
@@ -34,16 +34,29 @@ const App = () => {
     // setExpenses([expense, ...expenses]); // 좋은 방법이 아니다.
 
     // 동일한 상태의 이전 스냅샨을 기반으로 하는 경우에 상태를 업데이트를 할 수 있는 깔끔한 방법이다.
-    setExpenses(prevExpenses => {
+    setExpenses((prevExpenses) => {
       return [expense, ...prevExpenses];
-    })
+    });
+  };
+
+  const filterChangeHandler = (selectedYear) => {
+    setFilteredYear(selectedYear);
+
+    let newArr = DUMMY_EXPENSES.filter(
+      (expense) => Number(selectedYear) === expense.date.getFullYear()
+    );
+    setExpenses(newArr);
   };
 
   // props 키 이름은, 던져준 키값의 이름을 사용해야 한다.
   return (
     <div>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={expenses} />
+      <Expenses
+        items={expenses}
+        onFilterChange={filterChangeHandler}
+        filteredYear={filteredYear}
+      />
     </div>
   );
 };
