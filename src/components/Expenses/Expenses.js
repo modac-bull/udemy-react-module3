@@ -21,9 +21,26 @@ export default function Expenses(props) {
     setFilteredYear(selectedYear);
   };
 
+  // 필터 목록 처리
   const filteredExpenses = props.items.filter((expense) => {
-    return expense.date.getFullYear().toString() === filteredYear
+    return expense.date.getFullYear().toString() === filteredYear;
   });
+
+  // JSX를 반환하는 변수도 가능하다
+  let expensesContent = <p>No Expense found.</p>;
+
+  if (filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((expense) => {
+      return (
+        <ExpenseItem
+          key={expense.id}
+          title={expense.title}
+          amount={expense.amount}
+          date={expense.date}
+        />
+      );
+    });
+  }
 
   return (
     <div>
@@ -32,16 +49,7 @@ export default function Expenses(props) {
           onChangeFilter={filterChangeHandler}
           selected={filteredYear}
         />
-        {filteredExpenses.map((expense) => {
-          return (
-            <ExpenseItem
-              key={expense.id}
-              title={expense.title}
-              amount={expense.amount}
-              date={expense.date}
-            />
-          );
-        })}
+        {expensesContent}
       </Card>
     </div>
   );
