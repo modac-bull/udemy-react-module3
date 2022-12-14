@@ -16,8 +16,6 @@ const ExpenseForm = (props) => {
   //   enteredDate: ''
   // });
 
-  const [formActive, setFormActive] = useState(false);
-
   const titleChangeHandler = (event) => {
     console.log("타이틀 입력됨");
     // 입력한 값을 받아올 수 있을까? => event 기본 바닐라 자바스크립트
@@ -79,26 +77,10 @@ const ExpenseForm = (props) => {
     setEnteredTitle("");
     setEnteredAmount("");
     setEnteredDate("");
-    setFormActive(false);
   };
 
-  const formActiveHandler = () => {
-    setFormActive(true);
-  };
-  const formDeactiveHandler = () => {
-    setFormActive(false);
-  };
-
-  let formContent = (
+  return (
     <>
-      <button type="button" onClick={formActiveHandler}>
-        Add New Expense
-      </button>
-    </>
-  );
-
-  if (formActive) {
-    formContent = (
       <form onSubmit={submitHandler}>
         <div className="new-expense__controls">
           <div className="new-expense__control">
@@ -131,16 +113,12 @@ const ExpenseForm = (props) => {
           </div>
         </div>
         <div className="new-expense__actions">
-          <button type="button" onClick={formDeactiveHandler}>
-            Cancel
-          </button>
+          <button type="button" onClick={props.onCancel}>Cancel</button>
           <button type="submit">Add Expense</button>
         </div>
       </form>
-    );
-  }
-
-  return <>{formContent}</>;
+    </>
+  );
 };
 
 export default ExpenseForm;
